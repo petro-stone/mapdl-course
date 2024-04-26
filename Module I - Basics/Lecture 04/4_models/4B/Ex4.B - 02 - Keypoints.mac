@@ -1,0 +1,122 @@
+!! Keypoints
+/prep7
+KCounter=1
+
+! Térreo (base dos pilares)
+*do,zVal,0,5.4,5.4
+    K,KCounter,0,0,zVal
+    KCounter=1+KCounter
+    K,KCounter,3.4,0,zVal
+    KCounter=1+KCounter
+    K,KCounter,7.6,0,zVal
+    KCounter=1+KCounter
+    K,KCounter,11,0,zVal
+    KCounter=1+KCounter
+*enddo
+
+! Pisos 1 e 2
+*del,zVector
+*dim,zVector,ARRAY,3
+zVector(1)=0
+zVector(2)=3.275
+zVector(3)=5.4
+*do,yVal,3.2,6.4,3.2
+    *do,zIndex,1,3,1
+        zVal=zVector(zIndex)
+        K,KCounter,0,yVal,zVal
+        KCounter=1+KCounter
+        K,KCounter,3.4,yVal,zVal
+        KCounter=1+KCounter
+        K,KCounter,7.6,yVal,zVal
+        KCounter=1+KCounter
+        K,KCounter,11,yVal,zVal
+        KCounter=1+KCounter
+    *enddo
+*enddo
+
+K,KCounter,12.5,3.2,zVector(1)
+KCounter=1+KCounter
+K,KCounter,12.5,3.2,zVector(2)
+KCounter=1+KCounter
+K,KCounter,12.5,3.2,zVector(3)
+KCounter=1+KCounter
+
+! Cobertura
+! Pilares
+K,KCounter,0,9.85,0
+KCounter=1+KCounter
+K,KCounter,3.4,9.85,0
+KCounter=1+KCounter
+K,KCounter,7.6,9.85,0
+KCounter=1+KCounter
+K,KCounter,11,9.85,0
+KCounter=1+KCounter
+K,KCounter,0,9.04,5.4
+KCounter=1+KCounter
+K,KCounter,3.4,9.04,5.4
+KCounter=1+KCounter
+K,KCounter,7.6,9.04,5.4
+KCounter=1+KCounter
+K,KCounter,11,9.04,5.4
+KCounter=1+KCounter
+! Vigas
+BeamSlope=-0.15
+*del,xVector
+*dim,xVector,ARRAY,4
+xVector(1)=0
+xVector(2)=3.4
+xVector(3)=7.6
+xVector(4)=11
+*del,zVector
+*dim,zVector,ARRAY,9
+zVector(1)=-0.5
+zVector(2)=-0.3
+zVector(3)=0.7
+zVector(4)=1.7
+zVector(5)=2.7
+zVector(6)=3.7
+zVector(7)=4.7
+zVector(8)=5.7
+zVector(9)=5.9
+*do,xIndex,1,4,1
+    xVal=xVector(xIndex)
+    *do,zIndex,1,9,1
+        zVal=zVector(zIndex)
+        yVal=9.85+(zVal*BeamSlope)
+        K,KCounter,xVal,yVal,zVal
+        KCounter=1+KCounter
+    *enddo
+*enddo
+! Terças (extremidades)
+*do,xVal,-1,13.5,14.5
+    *do,zIndex,2,8,1
+        zVal=zVector(zIndex)
+        yVal=9.85+(zVal*BeamSlope)
+        K,KCounter,xVal,yVal,zVal
+        KCounter=1+KCounter
+    *enddo
+*enddo
+! Agulhas
+*del,xVector
+*dim,xVector,ARRAY,3
+xVector(1)=1.7
+xVector(2)=5.5
+xVector(3)=9.3
+*del,zVector
+*dim,zVector,ARRAY,7
+zVector(1)=-0.3
+zVector(2)=0.7
+zVector(3)=1.7
+zVector(4)=2.7
+zVector(5)=3.7
+zVector(6)=4.7
+zVector(7)=5.7
+*do,xIndex,1,3,1
+    xVal=xVector(xIndex)
+    *do,zIndex,1,7,1
+        zVal=zVector(zIndex)
+        yVal=9.85+(zVal*BeamSlope)
+        K,KCounter,xVal,yVal,zVal
+        KCounter=1+KCounter
+    *enddo
+*enddo

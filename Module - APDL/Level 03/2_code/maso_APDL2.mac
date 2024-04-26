@@ -1,0 +1,142 @@
+! DADOS DE ENTRADA
+L = 3       ! meters
+module_number = 3
+H = 1       ! meters
+
+banzo_diameter     = 40     ! millimeter
+montante_diameter  = 40     ! millimeter
+diagonais_diameter = 40     ! millimeter
+
+F = 10    ! kN
+F = F*1000 ! N
+
+pi=acos(-1)
+! *afun,deg
+
+force_angle = 0 ! graus
+force_angle = force_angle*(3.14159 / 180)
+
+! CARACTERISTICAS DO MODELO
+E = 2E11
+v = 0.3
+
+A = L / module_number
+
+! SEÇÕES DAS BARRAS
+banzo_area     = 3.14158*(((banzo_diameter/1000)**2)/4)
+montante_area  = 3.14158*(((montante_diameter/1000)**2)/4)
+diagonais_area = 3.14158*(((diagonais_diameter/1000)**2)/4)
+
+
+
+
+
+
+
+
+/prep7
+
+
+
+ET,1,180
+
+
+
+
+
+! DEFINICAO DE MATERIAL
+
+
+
+MP,EX,,E
+MP,PRXY,,v
+
+
+
+
+SECTYPE,1,LINK,,1
+SECDATA,banzo_area,
+SECCONTROL,0,0
+
+
+SECTYPE,2,LINK,,1
+SECDATA,montante_area,
+SECCONTROL,0,0
+
+SECTYPE,3,LINK,,1
+SECDATA,diagonais_area,
+SECCONTROL,0,0
+
+
+
+
+! cont_sup = 1     ! Variavel para armazenar numero de nós superiores
+! j = 2     ! Variavel auxiliar
+
+
+first_top_node = 1
+last_top_node  = module_number+1
+first_bot_node = last_top_node+1
+last_bot_node  = first_bot_node+module_number
+
+! NÓS SUPERIORES
+node_num=first_top_node
+N,node_num,0,H
+
+*do,i,1,module_number,1
+  node_num=node_num+1
+  N,node_num,i*A,H
+*enddo
+
+! NÓS INFERIORES
+node_num=node_num+1
+N,node_num,0,0
+
+*do,i,1,module_number-1,1
+  node_num=node_num+1
+  N,node_num,i*A,0
+*enddo
+
+! BANZOS
+! BANZOS SUPERIORES
+*do,i,1,last_top_node-1,1
+  E,i,i+1
+*enddo
+
+! BANZOS INFERIORES
+*do,i,first_bot_node,last_bot_node-1,1
+  E,i,i+1
+*enddo
+
+! MONTANTES
+*do,i,1,module_number-1,1
+  bot_node=first_bot_node+(i-1)
+  top_node=first_top_node+(i-1)
+  e,bot_node,top_node
+*enddo
+
+! DIAGONAIS
+*do,i,1,module_number,1
+  E,cont_sup+i,i+1
+  E,cont_sup+i-1,i+2
+
+*enddo
+
+
+
+
+
+! CONDICOES DE CONTORNO
+
+
+
+D,1,UX,0,,,,UY
+D,cont_sup+1,UX,0
+
+
+
+
+
+! APLICACAO DA FORCA
+F,last_top_node,FY,-F*cos(force_angle)
+F,last_top_node,FX,F*sin(force_angle)

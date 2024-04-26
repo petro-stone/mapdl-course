@@ -1,0 +1,170 @@
+! Dados de entrada
+d=0.305
+bf=0.101
+tf=0.0067
+tw=0.0056
+L=18
+Load=-1000
+
+! Pré-processo
+/prep7
+
+! Tipo de elemento
+ET,1,181
+
+! Propriedades do material
+MP,EX,1,2E11
+MP,PRXY,1,0.3
+
+! Keypoints
+!   Face inferior
+K,1,-bf/2,0,0
+K,2,0,0,0
+K,3,bf/2,0,0
+K,4,-bf/2,0,d
+K,5,0,0,d
+K,6,bf/2,0,d
+K,7,0,0,d/2
+!   Face superior
+K,8,-bf/2,L,0
+K,9,0,L,0
+K,10,bf/2,L,0
+K,11,-bf/2,L,d
+K,12,0,L,d
+K,13,bf/2,L,d
+K,14,0,L,d/2
+
+! Linhas
+!   Face inferior
+L,1,2
+L,2,3
+L,4,5
+L,5,6
+L,2,7
+L,7,5
+!   Face superior
+L,8,9
+L,9,10
+L,11,12
+L,12,13
+L,9,14
+L,14,12
+!   Longitudinais
+L,1,8
+L,2,9
+L,3,10
+L,4,11
+L,5,12
+L,6,13
+L,7,14
+
+! Áreas
+AL,1,14,7,13
+AL,2,15,8,14
+AL,3,17,9,16
+AL,4,18,10,17
+AL,5,14,11,19
+AL,6,19,12,17
+
+! Seções transversais
+SECTYPE,1,SHELL,,MESA
+SECDATA,tf,1
+SECTYPE,2,SHELL,,ALMA
+SECDATA,tw,1
+
+! Atributos das áreas
+ASEL,S,LOC,Z,0
+ASEL,A,LOC,Z,d
+AATT,1,,1,,1
+ASEL,INVE
+AATT,1,,1,,2
+
+! Criar malha
+ALLSEL
+AESIZE,ALL,bf/4
+AMESH,ALL
+
+/eshape,1
+
+! Acoplamento nodal na face superior
+LSEL,S,LOC,Y,L
+NSLL,S,1
+MasterNode=NODE(0,L,d/2)
+CERIG,MasterNode,ALL,ALL
+ALLSEL
+
+! Apoio inferior
+LSEL,S,LOC,Y,0
+DL,ALL,,ALL,0
+ALLSEL
+
+! Apoio superior
+NSEL,S,NODE,,MasterNode
+D,MasterNode,UX,0,,,,UZ,ROTX,ROTY,ROTZ
+ALLSEL
+
+! Carga
+ALLSEL
+F,MasterNode,FY,Load
+
+! Solucionar
+/solu
+ANTYPE,0
+PSTRES,ON
+SOLVE
+
+! Pós-processo
+/post1
+
+! Ler resultados
+SET,,1
+
+! Plotar deformada
+PLDISP
+
+! Tensão de Von Mises
+PLNSOL,S,EQV
+
+! Nova análise
+/solu
+ANTYPE,BUCKLE
+BUCOPT,LANB,10,0,0,RANGE
+MXPAND,10,0,0,1,0.001
+SOLVE
+
+! Pós-processo
+/post1
+
+! Ler resultados
+!SET,LIST
+
+! Ler resultados
+SET,,1
+
+! Múltiplas janelas
+/window,ALL,OFF
+/window,1,LEFT
+/window,2,RIGHT
+/view,1,,,1
+/angle,1
+/view,2,1
+/angle,2
+/pnum,SEC,1
+/number,1
+/edge,ALL,1
+/eshape,0
+
+PLDISP
+
+! Capturar imagens dos modos de flambagem
+*do,nthMode,1,10,1
+   SET,,nthMode
+   PLDISP
+   modeNumString=CHRVAL(nthMode)
+   fName=STRCAT('MODO',modeNumString)
+   TAKEPIC,fName,800
+*enddo
+
+FINISH
+
+

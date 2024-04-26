@@ -1,0 +1,97 @@
+! Pré-processo
+/prep7
+
+! Tipo de elemento
+ET,1,181
+
+! Propriedades do material
+MP,EX,1,2E11
+MP,PRXY,1,0.3
+
+! Keypoints
+K,1,0,0,0
+K,2,0.1,0,0
+K,3,0.5,0.4,0
+K,4,0.5,0.5,0
+K,5,0,0.5,0
+
+! Área
+A,1,2,3,4,5
+
+! Seção transversal
+SECTYPE,1,SHELL,,CHAPA
+SECDATA,0.016,1
+
+! Atributos da área
+AATT,1,,1,,1
+
+! Criar malha
+AESIZE,ALL,0.02
+AMESH,ALL
+
+/eshape,1
+
+! Apoio
+LSEL,S,LOC,X,0
+DL,ALL,,ALL,0
+
+! Carga
+ALLSEL
+FK,4,FY,-1000
+
+! Solucionar
+/solu
+ANTYPE,0
+PSTRES,ON
+SOLVE
+
+! Pós-processo
+/post1
+
+! Ler resultados
+SET,,1
+
+! Plotar deformada
+PLDISP
+
+! Tensão de Von Mises
+PLNSOL,S,EQV
+
+! Nova análise
+/solu
+ANTYPE,BUCKLE
+BUCOPT,LANB,10,0,0,RANGE
+MXPAND,10,0,0,1,0.001
+SOLVE
+
+! Pós-processo
+/post1
+
+! Ler resultados
+SET,LIST
+
+! Ler resultados
+SET,,1
+
+! Múltiplas janelas
+/window,ALL,OFF
+/window,1,LEFT
+/window,2,RIGHT
+/view,1,,,1
+/angle,1
+/view,2,1
+/angle,2
+
+PLDISP
+
+! Capturar imagens dos modos de flambagem
+*do,nthMode,1,10,1
+   SET,,nthMode
+   PLDISP
+   modeNumString=CHRVAL(nthMode)
+   fName=STRCAT('MODO',modeNumString)
+   TAKEPIC,fName,800
+*enddo
+
+FINISH
+

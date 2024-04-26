@@ -1,0 +1,34 @@
+!!                                                                                                !!
+!! EXEMPLO: Uso de funções para escrever em arquivos externos.                                    !!
+!!                                                                                                !!
+
+!!                                                                                                !!
+!! NOTA:                                                                                          !!
+!!    Para a utilização correta dos comandos de escrever em arquivo (*cfopen, *vwrite, etc.) é    !!
+!!    obrigatório escrever o código correspondente em um arquivo externo e ler esse arquivo no    !!
+!!    ANSYS utilizando o comando /input (File > Read input from).                                 !!
+!!                                                                                                !!
+
+! Definição de variáveis para utilização no exemplo
+var1=44.32
+var2='opa'
+
+!! CASO #1: escrever número real                                                                  !!
+*cfopen,'floatPoint',TXT
+
+   *vwrite,var1,var2
+   (F8.3,' S',A3)
+
+*cfclos
+
+!! CASO #2: escrever número em notação exponencial                                                !!
+*cfopen,'expNota',TXT
+
+   *vwrite,
+   ('Cabeçalho do arquivo')
+   *vwrite,var1,var2
+   (E15.4,' C',A4)
+
+*cfclos
+
+

@@ -1,0 +1,119 @@
+/prep7
+
+*afun,rad 			!operar em radianos
+*dim,areas,array,3
+*vfill,areas,data,40e-3,50e-3,30e-3		!diamentro dos banzos,diamentro dos montantes, diamentro das diagonais
+*do,def,1,3,1							!transformar diametros em areas
+	*set,areas(def),areas(def)**2*acos(-1)/4
+*enddo
+elast=200e9			!modulo de elasticidade em Pa
+v=0.3				!coeficiente de poisson
+larg=1				!largura de uma barra
+alt=1				!altura de uma barra
+altt=1				!altura total
+numh=2				!numero de horizontais
+hor1=10				!numero de banzos na primeira horizontal
+hor2=11				!numero de banzos na segunda horizontal
+for=10000			!força em N
+ang=-90				!angulo em graus do vetor forca
+*afun,deg			!operar em graus
+
+!!
+*del,forces
+*dim,forces,ARRAY,hor2
+forces(1)=10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110
+
+*get,ANREV,ACTIVE,,REV
+!!
+
+!definir elemento, material e tipo de seccao
+et,1,180			!elemento 1 tipo link180
+*do,set,1,3,1		!definir tipo e dados das seccoes descriates em areas()
+   *if,ANREV,LE,15,THEN
+      r,set,areas(set)
+   *else
+      sectype,set,link
+      secdata,areas(set)
+   *endif
+*enddo
+mp,ex,1,elast 		!definir modulo de estasticidade do material 1
+mp,prxy,1,v 		!definir coeficiente de poisson do material 1
+
+!criar pontos
+non=1				!contador de pontos
+*do,x,0,hor2,larg
+	n,non,x,altt
+	non=non+1
+*enddo
+lasth2=non-1		!identificar ultimo ponto da primeira horizontal
+*do,x,0,hor1,larg
+	n,non,x,altt-alt
+	non=non+1
+*enddo
+non=non-2			!identifirae penultimo ponto
+
+!criar elementos
+
+!!secnum,1			!criar banzos
+*if,ANREV,LE,15,THEN
+   real,1
+*else
+   secnum,1
+*endif
+*do,x,1,non,1
+	*if,x,eq,lasth2,then
+		x=x+1
+	*else
+		e,x,x+1
+	*endif
+*enddo
+!!secnum,2			!criar montantes
+*if,ANREV,LE,15,THEN
+   real,2
+*else
+   secnum,2
+*endif
+*do,y,1,lasth2-1,1
+	e,y,lasth2+y
+*enddo
+!!secnum,3			!criar diagonais
+*if,ANREV,LE,15,THEN
+   real,3
+*else
+   secnum,3
+*endif
+*do,d,2,lasth2,1
+	e,d,lasth2+d-1
+*enddo
+
+!criar apoios
+d,1,ux,0,,,,uy
+d,lasth2+1,ux,0
+
+!criar forcas
+*do,f,1,lasth2,1
+   !for=forces(f)
+   !*ask,for,'FORCE VALUE [kN] (%F%)',0
+
+	f,f,fx,forces(f)*cos(ang)
+	f,f,fy,forces(f)*sin(ang)
+*enddo
+
+!solucionar
+/solu
+solve
+
+!resultados
+/post1
+set,,1
+pldisp
+prrsol
+presol,f
+etable,TENSNORM,ls,1
+etable,DEFAXIAL,lepel,1
+etable,FORAXIAL,smisc,1
+
+DFN188
+TAKEPIC,'NORMAL'
+
+

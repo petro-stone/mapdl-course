@@ -1,0 +1,40 @@
+!! Cargas e apoios
+! Carga sobre lajes
+CMSEL,S,Laje12
+CMSEL,A,Laje8
+SFA,ALL,1,PRES,4000
+
+! Carga sobre vigas perimetrais
+CMSEL,S,LVigas20x50A
+LSEL,U,LOC,X,1,10
+CMSEL,A,LVigas20x50B
+ESLL,S
+SFBEAM,ALL,1,PRES,8000
+
+! Carga sobre terças da cobertura
+CMSEL,S,LTercasCob
+ESLL,S
+SFBEAM,ALL,1,PRES,-1000
+
+! Forças nodais
+! 1° Piso:
+FK,9,FZ,28000
+FK,10,FZ,28000
+FK,11,FZ,28000
+FK,12,FZ,28000
+! 2° Piso:
+FK,21,FZ,28000
+FK,22,FZ,28000
+FK,23,FZ,28000
+FK,24,FZ,28000
+
+! Aceleração da gravidade
+ACEL,,9.81
+
+! Apoios nas bases dos pilares
+CMSEL,S,LPilares
+KSLL,S
+KSEL,R,LOC,Y,0
+DK,ALL,ALL,0
+
+ALLSEL

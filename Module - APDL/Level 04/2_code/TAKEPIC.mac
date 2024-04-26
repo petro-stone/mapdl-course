@@ -1,0 +1,92 @@
+! TAKEPIC, FileName, FileSize, VectorMode, graphMode
+! TAKEPIC, arg1,     arg2,     arg3,       arg4
+
+! Descrição:
+! Capturar imagem exibida na tela do ANSYS. É possível controlar a resolução, o nome do arquivo
+! gerado e a exibição vetorial.
+
+! Lista de argumentos:
+! arg1: FileName    -  nome do arquivo a ser gerado
+! arg2: FileSize    -  resoulção da imagem
+! arg3: VectorMode  -  exibição vetorial (wireframe)
+! arg4: graphMode   -  tipo de display gráfico (comando /graphics):
+!                         [0] Não alterar;
+!                         [1] FULL;
+!                         [2] PowerGraphics;
+
+! Lista de variáveis:
+! AR20: ArgType
+! AR21: WireframeOn
+! AR22: ParmType
+
+! Precise hidden display
+!/type,,4
+
+! Definição do display gráfico
+*get,AR20,PARM,arg4,TYPE
+*if,AR20,EQ,0,THEN
+   *if,arg4,EQ,1,THEN
+      /graphics,FULL
+   *elseif,arg4,EQ,2,THEN
+      /graphics,POWER
+   *endif
+*endif
+
+! Definições da exibição vetorial (wireframe)
+AR21=0
+*get,AR22,PARM,arg3,TYPE
+*if,AR22,EQ,0,THEN
+   *if,arg3,EQ,1,THEN
+      AR21=1
+   *endif
+*endif
+
+! Modificar dispositivo de saída gráfica
+/show,PNG,,AR21
+! Configurações
+!   Compressão do arquivo (desligada)
+PNGR,COMP,OFF,-1
+!   Orientação (horizontal)
+PNGR,ORIENT,HORIZ
+!   Imagem em cores
+PNGR,COLOR,2
+!   Texto bitmap
+PNGR,TMOD,1
+! Resolução da imagem (em pixels)
+*if,arg2,GT,0,THEN
+   /gfile,arg2
+*else
+   /gfile,2400
+*endif
+! Criar arquivo temporário de cores
+/cmap,_TEMPCMAP_,CMP,,SAVE
+! Inverter as cores de exibição
+/rgb,INDEX,100,100,100, 0
+/rgb,INDEX, 80, 80, 80,13
+/rgb,INDEX, 60, 60, 60,14
+/rgb,INDEX, 0, 0, 0,15
+! Desenhar imagem (criar arquivo)
+/replot
+! Excluir arquivo temporário de cores
+/cmap,_TEMPCMAP_,CMP
+/delete,_TEMPCMAP_,CMP
+! Retornar para dispositivo de saída gráfica padrão
+/show,CLOSE
+! Restaurar as cores de exibição
+/rgb,INDEX, 0, 0, 0, 0
+/rgb,INDEX, 60, 60, 60,13
+/rgb,INDEX, 80, 80, 80,14
+/rgb,INDEX,100,100,100,15
+
+*get,AR20,PARM,arg1,TYPE
+*if,AR20,EQ,3,THEN
+   ! Renomear o arquivo criado
+   *del,TAKEPIC_FileName
+   *get,TAKEPIC_FileName,ACTIVE,0,JOBNAM
+   /rename,'%TAKEPIC_FileName%000','png',,'%arg1%','png'
+*endif
+
+! Default display
+!/type
+
+

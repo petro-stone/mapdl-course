@@ -1,0 +1,275 @@
+!! Lines
+LSEL,U,LINE,,ALL
+
+*del,xVector
+*dim,xVector,ARRAY,4
+xVector(1)=0,3.4,7.6,11
+
+*del,zVector,
+*dim,zVector,ARRAY,3
+zVector(1)=0,3.275,5.4
+
+! Pilares
+! Tramo térreo - piso 1
+*do,yVal,0,3.2,3.2
+    *do,zVal,0,5.4,5.4
+        *do,xIndex,1,4,1
+            xVal=xVector(xIndex)
+            KP1=KP(xVal,yVal,zVal)
+            KP2=KP(xVal,yVal+3.2,zVal)
+            L,KP1,KP2
+        *enddo
+    *enddo
+*enddo
+
+*del,yInc
+*dim,yInc,ARRAY,2
+yInc(1)=3.45,2.64
+incIndex=1
+yVal=6.4
+*do,zVal,0,5.4,5.4
+    *do,xIndex,1,4,1
+        xVal=xVector(xIndex)
+        KP1=KP(xVal,yVal,zVal)
+        KP2=KP(xVal,yVal+yInc(incIndex),zVal)
+        L,KP1,KP2
+    *enddo
+    incIndex=1+incIndex
+*enddo
+
+CM,LPilares,LINE
+LSEL,U,LINE,,ALL
+
+*do,yVal,3.2,6.4,3.2
+    KP1=KP(xVector(1),yVal,zVector(1))
+    KP2=KP(xVector(2),yVal,zVector(1))
+    KP3=KP(xVector(3),yVal,zVector(1))
+    KP4=KP(xVector(4),yVal,zVector(1))
+    L,KP1,KP2
+    L,KP2,KP3
+    L,KP3,KP4
+    KP5=KP(xVector(1),yVal,zVector(2))
+    KP6=KP(xVector(2),yVal,zVector(2))
+    KP7=KP(xVector(3),yVal,zVector(2))
+    KP8=KP(xVector(4),yVal,zVector(2))
+    L,KP5,KP6
+    L,KP6,KP7
+    L,KP7,KP8
+    KP9=KP(xVector(1),yVal,zVector(3))
+    KP10=KP(xVector(2),yVal,zVector(3))
+    KP11=KP(xVector(3),yVal,zVector(3))
+    KP12=KP(xVector(4),yVal,zVector(3))
+    L,KP12,KP11
+    L,KP11,KP10
+    L,KP10,KP9
+    L,KP9,KP5
+    L,KP5,KP1
+    L,KP10,KP6
+    L,KP6,KP2
+    L,KP11,KP7
+    L,KP7,KP3
+    L,KP12,KP8
+    L,KP8,KP4
+    *if,yVal,EQ,3.2,THEN
+        KP13=KP(12.5,yVal,zVector(1))
+        KP14=KP(12.5,yVal,zVector(2))
+        KP15=KP(12.5,yVal,zVector(3))
+        L,KP13,KP4
+        L,KP8,KP14
+        L,KP12,KP15
+        L,KP15,KP14
+        L,KP14,KP13
+    *endif
+*enddo
+
+CM,LVigas,LINE
+
+LSEL,U,LOC,Z,3.275
+LSEL,U,LOC,X,11.1,12.5
+CM,LVigas20x50,LINE
+
+CMSEL,S,LVigas20x50
+LSEL,U,LOC,Z,0
+LSEL,U,LOC,Z,5.4
+CM,LVigas20x50A,LINE
+
+CMSEL,S,LVigas20x50
+CMSEL,U,LVigas20x50A
+CM,LVigas20x50B,LINE
+
+CMSEL,S,LVigas
+LSEL,R,LOC,Z,3.275
+LSEL,R,LOC,X,7.6,11
+CM,LVigas15x40A,LINE
+
+CMSEL,S,LVigas
+CMSEL,U,LVigas20x50
+LSEL,U,LOC,X,12.5
+LSEL,U,LOC,Z,3.275
+CM,LVigas15x40B,LINE
+
+!CMSEL,S,LVigas15x40
+!LSEL,U,LOC,X,11,12.5
+!CM,LVigas15x40A,LINE
+!
+!CMSEL,S,LVigas15x40
+!LSEL,U,LOC,X,0,11
+!CM,LVigas15x40B,LINE
+
+LSEL,U,LINE,,ALL
+
+! Cobertura
+! Vigas
+! 1ª (x=0)
+L,44,45
+L,45,36
+L,36,46
+L,46,47
+L,47,48
+L,48,49
+L,49,50
+L,50,40
+L,40,51
+L,51,52
+! 2ª (x=3.4)
+L,53,54
+L,54,37
+L,37,55
+L,55,56
+L,56,57
+L,57,58
+L,58,59
+L,59,41
+L,41,60
+L,60,61
+! 3ª (x=7.6)
+L,62,63
+L,63,38
+L,38,64
+L,64,65
+L,65,66
+L,66,67
+L,67,68
+L,68,42
+L,42,69
+L,69,70
+! 4ª (x=11)
+L,71,72
+L,72,39
+L,39,73
+L,73,74
+L,74,75
+L,75,76
+L,76,77
+L,77,43
+L,43,78
+L,78,79
+CM,LVigasCob,LINE
+LSEL,U,LINE,,ALL
+! Terças
+L,80,45
+L,45,94
+L,94,54
+L,54,101
+L,101,63
+L,63,108
+L,108,72
+L,72,87
+L,81,46
+L,46,95
+L,95,55
+L,55,102
+L,102,64
+L,64,109
+L,109,73
+L,73,88
+L,82,47
+L,47,96
+L,96,56
+L,56,103
+L,103,65
+L,65,110
+L,110,74
+L,74,89
+L,83,48
+L,48,97
+L,97,57
+L,57,104
+L,104,66
+L,66,111
+L,111,75
+L,75,90
+L,84,49
+L,49,98
+L,98,58
+L,58,105
+L,105,67
+L,67,112
+L,112,76
+L,76,91
+L,85,50
+L,50,99
+L,99,59
+L,59,106
+L,106,68
+L,68,113
+L,113,77
+L,77,92
+L,86,51
+L,51,100
+L,100,60
+L,60,107
+L,107,69
+L,69,114
+L,114,78
+L,78,93
+CM,LTercasCob,LINE
+LSEL,U,LINE,,ALL
+! Agulhas
+L,94,95
+L,95,96
+L,96,97
+L,97,98
+L,98,99
+L,99,100
+L,101,102
+L,102,103
+L,103,104
+L,104,105
+L,105,106
+L,106,107
+L,108,109
+L,109,110
+L,110,111
+L,111,112
+L,112,113
+L,113,114
+L,87,88
+L,88,89
+L,89,90
+L,90,91
+L,91,92
+L,92,93
+CM,LAgulhasCob,LINE
+LSEL,U,LINE,,ALL
+! Tirantes
+L,45,95
+L,95,54
+L,54,102
+L,102,63
+L,63,109
+L,109,72
+CM,LTirantesCob,LINE
+LSEL,U,LINE,,ALL
+! Contraventamento
+L,45,56
+L,54,47
+L,47,58
+L,56,49
+L,49,60
+L,58,51
+CM,LContraventosCob,LINE
+
+ALLSEL
+
+

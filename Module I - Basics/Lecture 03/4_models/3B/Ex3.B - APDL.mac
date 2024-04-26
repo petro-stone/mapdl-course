@@ -1,0 +1,111 @@
+!! DADOS                                                       !!
+! Exercício: 3.B
+! Descrição: Análise estática linear de laje retangular
+! Unidades: m (metro), N (Newton), s (segundo), kg (quilograma)
+
+!! PRÉ-PROCESSO                                                !!
+/prep7
+
+! Elemento SHELL181
+ET,1,181
+
+! Seção transversal
+SECTYPE,1,SHELL,,LAJE,3
+SECDATA,0.12,1
+
+! Propriedades do material
+MP,EX,1,2.38E10
+MP,PRXY,1,0.2
+MP,DENS,1,2500
+
+! Keypoints
+K,1,0,0,0
+K,2,0,0,3.5
+K,3,5,0,3.5
+K,4,5,0,0
+
+! Lines
+L,1,2
+L,2,3
+L,3,4
+L,4,1
+
+! Area
+AL,1,2,3,4
+
+! Apoios
+DL,1,,ALL,0
+DL,2,,UX,0
+DL,2,,UY,0
+DL,2,,UZ,0
+DL,3,,UX,0
+DL,3,,UY,0
+DL,3,,UZ,0
+DL,4,,UX,0
+DL,4,,UY,0
+DL,4,,UZ,0
+
+! Cargas
+SFA,ALL,2,PRES,8000
+ACEL,,9.81
+/psf,PRES,NORM,2
+
+! Malha
+AATT,1,,1,,1
+AESIZE,ALL,0.1
+AMESH,ALL
+
+! Exibição
+/view,,1,1,1
+/eshape,1
+EPLOT
+
+!! SOLUÇÃO                                                     !!
+/solu
+SOLVE
+
+!! PÓS-PROCESSO                                                !!
+/post1
+
+! Ler resultados
+SET,,1
+
+! Plotar deformada
+PLDISP
+
+! Listar reações
+PRRSOL
+
+! Criar tabela
+ETABLE,TENEQV,S,EQV
+ETABLE,FX,SMISC,1
+ETABLE,FY,SMISC,2
+ETABLE,DESLOCY,U,Y
+ETABLE,MOMXLOC,SMISC,4
+ETABLE,MOMYLOC,SMISC,5
+ETABLE,MOM12,SMISC,6
+
+! Plotar soluções
+PLETAB,TENEQV,AVG
+PLETAB,FX,AVG
+PLETAB,FY,AVG
+PLETAB,DESLOCY,AVG
+PLETAB,MOMXLOC,AVG
+PLETAB,MOMYLOC,AVG
+PLETAB,MOM12,AVG
+
+/eshape,0
+/pbc,NFOR,,0
+/pbc,NMOM,,0
+/pbc,RFOR,,2
+/pbc,RMOM,,0
+/pbc,PATH,,0
+/pbc,U,,0
+/pbc,ROT,,0
+/pbc,ACEL,,0
+/vscale,,10
+/view,,1,1,1
+/auto,1
+EPLOT
+
+FINISH

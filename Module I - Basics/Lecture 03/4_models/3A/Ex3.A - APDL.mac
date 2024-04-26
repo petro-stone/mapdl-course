@@ -1,0 +1,230 @@
+!! DADOS                                                       !!
+! Exercício: 3.A
+! Descrição: Análise estática linear chapa sem e com furo
+! Unidades: mm (milímetro), kN (kilonewton), s (segundo)
+
+!! PRÉ-PROCESSO                                                !!
+/prep7
+
+! Elemento SHELL181
+ET,1,181
+
+! Seção transversal
+SECTYPE,1,SHELL,,ESPESS,3
+SECDATA,0.8,1
+
+! Propriedades do material
+MP,EX,1,200
+MP,PRXY,1,0.3
+
+! KEYPOINTS
+! Chapa
+K,1,0,0,0
+K,2,100,0,0
+K,3,100,38,0
+K,4,0,38,0
+
+! Área
+A,1,2,3,4
+
+! Apoio
+LSEL,S,LOC,X,0
+DL,ALL,,ALL,0
+ALLSEL
+
+! Carga
+LSEL,S,LOC,X,100
+SFL,ALL,PRES,-0.0615
+ALLSEL
+/psf,PRES,NORM,2
+
+! Malha
+AATT,1,,1,,1
+AESIZE,ALL,2
+AMESH,ALL
+
+! Ativar exibição de seções transversais
+/eshape,1
+
+! Exibir elementos
+EPLOT
+
+!! SOLUÇÃO                                                     !!
+/solu
+SOLVE
+
+!! PÓS-PROCESSO                                                !!
+/post1
+
+! Ler resultados
+SET,,1
+
+! Plotar deformada
+PLDISP
+
+! Listar reações
+PRRSOL
+
+! Criar tabela
+ETABLE,TENEQV,S,EQV
+ETABLE,FX,SMISC,1
+ETABLE,FY,SMISC,2
+ETABLE,DEFX,EPEL,X
+ETABLE,DESLOCX,U,X
+
+! FATOR DE SEGURANÇA
+! Tensão limite
+SALLOW,0.23
+! Tensão axial
+SFCALC,FSTEN,TENEQV,,3
+
+! Escala da deformada
+/dscale,,1000
+
+! Plotar soluções
+PLETAB,TENEQV,AVG
+PLETAB,FSTEN,AVG
+PLETAB,DEFX,AVG
+PLETAB,DESLOCX,AVG
+PLETAB,FX,AVG
+PLETAB,FY,AVG
+
+!! PRÉ-PROCESSO                                                !!
+/prep7
+
+! Excluir malha
+ACLEAR,ALL
+
+! Áreas
+CYL4,80,19,3
+ASBA,1,2,,,DELETE
+
+! Malha
+AATT,1,,1,,1
+AESIZE,ALL,2
+AMESH,ALL
+
+!! SOLUÇÃO                                                     !!
+/solu
+SOLVE
+
+!! PÓS-PROCESSO                                                !!
+/post1
+
+! Ler resultados
+SET,,1
+
+! Plotar deformada
+PLDISP
+
+! Listar reações
+PRRSOL
+
+! Atualizar tabelas
+ETABLE,REFL
+
+! FATOR DE SEGURANÇA
+! Tensão axial
+SFCALC,FSTEN,TENEQV,,3
+
+! Plotar soluções
+PLETAB,TENEQV,AVG
+PLETAB,FSTEN,AVG
+PLETAB,DEFX,AVG
+PLETAB,DESLOCX,AVG
+PLETAB,FX,AVG
+PLETAB,FY,AVG
+
+FINISH
+
+!! PRÉ-PROCESSO                                                !!
+ALLSEL
+
+! Definir opções de visualização
+/view,,,,1
+/auto,1
+EPLOT
+/device,VECTOR,ON
+/replot
+/psymb,ESYS,1
+/replot
+
+! Criar sistema local de coordenadas
+LOCAL,11,CART,0,0,0
+
+/prep7
+
+! Modificar sistemas de coordenadas locais dos elementos
+EMODIF,ALL,ESYS,11
+
+! Definir opções de visualização
+EPLOT
+/device,VECTOR,OFF
+/psymb,ESYS,0
+/replot
+
+!! SOLUÇÃO                                                     !!
+/solu
+
+! Solucionar o modleo
+SOLVE
+
+!! PÓS-PROCESSO                                                !!
+/post1
+
+! Ler primeiro grupo de resultados
+SET,,1
+
+! Atualizar Element Tables
+ETABLE,REFL
+
+! Plotar Element Table: forças na direção X
+PLETAB,FX,AVG
+
+! Criar caminho na seção com furo
+PATH,FURO,2,30,100
+PPATH,1,,80,0,0,11
+PPATH,2,,80,38,0,11
+PATH,FURO
+
+! Mapear resultados de forças na direção X no caminho
+PDEF,FX,ETAB,FX,NOAVG
+
+! Criar caminho na seção extrema da chapa (aplicação da força)
+PATH,PONTA,2,30,100
+PPATH,1,,100,0,0,11
+PPATH,2,,100,38,0,11
+PATH,PONTA
+
+! Mapear resultados de forças na direção X no caminho
+PDEF,FX,ETAB,FX,NOAVG
+
+! Criar caminho em seção da chapa entre apoio e furo
+PATH,MEIO,2,30,100
+PPATH,1,,40,0,0,11
+PPATH,2,,40,38,0,11
+PATH,MEIO
+
+! Mapear resultados de forças na direção X no caminho
+PDEF,FX,ETAB,FX,NOAVG
+
+! Definir opções de visualização
+ALLSEL
+/view,,,,1
+/auto,1
+NPLOT
+/noerase
+
+! Plotar forças em X nos caminhos definidos
+PATH,PONTA
+PLPAGM,FX,100,NODE
+PATH,FURO
+PLPAGM,FX,100,NODE
+PATH,MEIO
+PLPAGM,FX,100,NODE
+
+! Redefinir opções de visualização
+/erase
+
+FINISH
+

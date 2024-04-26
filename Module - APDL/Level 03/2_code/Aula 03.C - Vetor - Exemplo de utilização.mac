@@ -1,0 +1,27 @@
+!!                                                                                                !!
+!! EXEMPLO DE UTILIZAÇÃO DE VETOR                                                                 !!
+!!                                                                                                !!
+!! Nome do vetor:     myArray                                                                     !!
+!! Dimensão do vetor:  10 x 1                                                                     !!
+!!                                                                                                !!
+
+! Declaração do vetor
+*dim,myArray,ARRAY,10
+
+! Preenchimento do vetor
+myArray(1)=1,2,44,5,7,-8,11,0.2,99,-1
+
+! Obter valor numa posição do vetor
+val7=myArray(7)
+
+! Alterar valor numa posição do vetor
+*afun,RAD
+pi=ACOS(-1)
+myArray(3)=pi
+
+! Outras funções úteis para operar com vetores
+! *del
+! *vfun
+! *vscfun
+! *voper
+! *vfill

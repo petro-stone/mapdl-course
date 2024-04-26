@@ -1,0 +1,133 @@
+!! DADOS                                                       !!
+! Exercício: 1.B
+! Descrição: Análise estática linear de treliça espacial
+! Unidades: m (metro), N (Newton), s (segundo)
+
+!! PRÉ-PROCESSO                                                !!
+/prep7
+
+! Elemento LINK180
+ET,1,180
+
+! Real Constants
+R,1,1.26E-3
+R,2,0.12E-3
+
+! Propriedades do material
+MP,EX,1,2E11
+MP,PRXY,1,0.3
+
+! NÓS
+! Inferiores
+N,1,0,0,0
+N,2,1,0,0
+N,3,1,0,1
+N,4,0,0,1
+! Superiores
+N,5,0,1,0
+N,6,1,1,0
+N,7,1,1,1
+N,8,0,1,1
+
+! ELEMENTOS
+! Banzos inferiores
+REAL,1
+E,1,2
+E,2,3
+E,3,4
+E,4,1
+! Banzos superiores
+E,5,6
+E,6,7
+E,7,8
+E,8,5
+! Montantes
+E,1,5
+E,2,6
+E,3,7
+E,4,8
+! Diagonais
+REAL,2
+E,1,6
+E,2,7
+E,3,8
+E,4,5
+
+! Apoios
+D,1,UX,0,,,,UY,UZ
+D,2,UX,0,,,,UY,UZ
+D,3,UX,0,,,,UY,UZ
+D,4,UX,0,,,,UY,UZ
+
+! Carregamento
+F,5,FZ,-1000
+F,6,FX,1000
+F,7,FZ,1000
+F,8,FX,-1000
+
+! Ativar exibição de seções transversais
+/eshape,1
+
+! Exibir elementos
+EPLOT
+
+!! SOLUÇÃO                                                     !!
+/solu
+SOLVE
+
+!! PÓS-PROCESSO                                                !!
+/post1
+
+! Ler resultados
+SET,,1
+
+! Plotar deformada
+PLDISP
+
+! Listar reações
+PRRSOL
+
+! Listar forças nas barras
+PRESOL,F
+
+! Criar tabela
+ETABLE,TENSNORM,LS,1
+ETABLE,DEFAXIAL,LEPEL,1
+ETABLE,FORAXIAL,SMISC,1
+
+! Plotar tensão normal
+PLETAB,TENSNORM,NOAV
+
+! Plotar deformação axial
+PLETAB,DEFAXIAL,NOAV
+
+! Plotar força axial
+PLETAB,FORAXIAL,NOAV
+
+! Listar tensões normais
+PRETAB,TENSNORM
+
+! Listar deformações axiais
+PRETAB,DEFAXIAL
+
+! Listar forças axiais
+PRETAB,FORAXIAL
+
+! Visualização
+!   Criar múltiplas janelas
+/window,ALL,OFF
+/window,1,LTOP
+/window,2,RTOP
+/window,3,LBOT
+/window,4,RBOT
+!   Definir ângulo de vistas
+/view,1,1,2,3
+/view,2,1,1,1
+/view,3,0,0,1
+/view,4,0,1,0
+!   Definir zoom automático
+/auto,all
+!   Plotar elementos
+EPLOT
+
+FINISH

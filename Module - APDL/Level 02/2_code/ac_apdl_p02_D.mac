@@ -1,0 +1,66 @@
+finish
+/clear
+
+GEO_L       = 5
+GEO_H       = 1.7
+GEO_modules = 6
+
+SEC_diamChord    = 20e-3
+SEC_diamPost     = 12e-3
+SEC_diamDiagonal = 10e-3
+
+/prep7
+
+RC_chord    = 1
+RC_post     = 2
+RC_diagonal = 3
+
+pi=acos(-1)
+
+GEO_A=GEO_L/(GEO_modules+1)
+
+SEC_areaChord    = pi*(SEC_diamChord/2)**2
+SEC_areaPost     = pi*(SEC_diamPost/2)**2
+SEC_areaDiagonal = pi*(SEC_diamDiagonal/2)**2
+
+et,1,180
+
+r , RC_chord    , RC_area
+r , RC_post     , RC_post
+r , RC_diagonal , RC_diagonal
+
+!!                                                                                                !!
+
+ithTopNode=1
+ithBotNode=2
+jthTopNode=3
+jthBotNode=4
+
+n , ithBotNode , 0     , 0     , 0
+n , ithTopNode , 0     , GEO_H , 0
+n , jthBotNode , GEO_A , 0     , 0
+n , jthTopNode , GEO_A , GEO_H , 0
+
+real,RC_chord
+e,ithTopNode,jthTopNode
+e,ithBotNode,jthBotNode
+
+real,RC_post
+e,ithBotNode,ithTopNode
+
+real,RC_diagonal
+e,ithBotNode,jthTopNode
+
+egen,GEO_modules+1,4,all,,,,,,,,GEO_A
+
+deletedNode=node(GEO_L,0,0)
+nsel,s,node,,deletedNode
+esln,s
+edele,all
+ndele,all
+
+!!                                                                                                !!
+
+allsel
+/pnum,real,1
+eplot

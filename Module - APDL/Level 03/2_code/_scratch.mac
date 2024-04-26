@@ -1,0 +1,12 @@
+egen
+ngen
+
+n,1,0,H,0
+ngen,module_number,1,1,,,A
+
+*get,max_node,node,,num,maxd
+n,max_node+1,0,0,0
+ngen,module_number-1,1,1,,,A
+
+
+

@@ -1,0 +1,152 @@
+!! DADOS                                                                                          !!
+! Exercício 4.A
+! Descrição: Análise estática linear de estaca de concreto mergulhada no solo
+! Unidades: m (metro), N (Newton), s (segundo)
+
+!! PRÉ-PROCESSO                                                                                   !!
+/prep7
+
+! Elemento volumétrico da estaca: SOLID185
+ET,1,185
+! Elemento unidimensional do solo: LINK180
+ET,2,180
+
+! Material: concreto da estaca
+MP,EX,1,30E9
+MP,PRXY,1,0.2
+
+! Material: molas representando o solo
+MP,EX,2,40E6
+MP,PRXY,2,0.2
+
+! Constante real: área das molas do solo
+R,1,1,0,0
+
+! Orientação de exibição: eixo Z para cima
+/vup,,Z
+/view,,,1
+
+! Criar estaca cilíndrica
+CYL4,0,0,0.25,,,,8
+! Dividir volume cilíndrico em 4 hemisférios
+WPROTA,,,90
+VSBW,ALL,,DELETE
+WPROTA,,,-90
+WPROTA,,90
+VSBW,ALL,,DELETE
+
+! Determinar dimensão dos elementos
+ESIZE,0.1
+! Determinar formato dos elementos
+MSHAPE,1,3D
+VMESH,ALL
+
+! Selecionar uma das arestas do cilindro
+LSEL,S,LOC,X,0.25
+NSLL,S,1
+
+! Copiar para o lado nós das arestas do cilindro
+*get,MxNd,NODE,,NUM,MAXD
+NGEN,2,MxNd,ALL,,,1
+
+! Criar elementos lineares (molas do solo) ligando nós da estaca aos novos nós
+TYPE,2
+MAT,2
+EINTF,0.0001,,LOW,0,1
+
+! Apoiar novos nós (extremidade das molas de solo)
+NSEL,S,LOC,X,1.25
+D,ALL,ALL,0
+
+! Engastar base da estaca
+ASEL,S,LOC,Z,0
+DA,ALL,ALL,0
+
+! Aplicar força e momento concentrados no topo da estaca
+NSEL,S,LOC,Z,8
+NSEL,R,LOC,X,0
+NSEL,R,LOC,Y,0
+F,ALL,FZ,-220E3
+F,ALL,MY,120E3
+
+! Exibir modelo completo
+ALLSEL
+GPLOT
+
+!! SOLUÇÃO                                                                                        !!
+/solu
+
+! Solucionar o modelo
+ALLSEL
+SOLVE
+
+
+!! PÓS-PROCESSO                                                                                   !!
+/post1
+
+! Plotar deformada
+SET,FIRST
+PLDISP,2
+
+! Plotar forças axiais nas molas do solo
+ALLSEL
+ETABLE,'FX',SMISC,1
+ESEL,S,TYPE,,2
+PLLS,'FX','FX'
+ALLSEL
+
+
+!! PRÉ-PROCESSO                                                                                   !!
+/prep7
+
+! Novo tipo de elemento: MASS21
+ET,3,MASS21
+KEYOPT,3,1,0
+KEYOPT,3,2,0
+KEYOPT,3,3,0
+! Constantes reais para elemento MASS21
+R,2,0
+
+! Criar elemento MASS21 no centro do topo da estaca
+NSEL,S,LOC,Z,8
+NSEL,R,LOC,X,0
+NSEL,R,LOC,Y,0
+*get,MasterNd,NODE,,NUM,MIN
+TYPE,3
+REAL,2
+E,MasterNd
+
+! Criar região rígida no centro do topo da estaca
+NSEL,S,LOC,Z,8
+ESLV,S
+NSLE,R
+CERIG,MasterNd,ALL,UXYZ
+ALLSEL
+
+! Aplicar força e momento no nó localizado no centro do topo da estaca
+F,MasterNd,FZ,-220E3
+F,MasterNd,MY,120E3
+
+
+!! SOLUÇÃO                                                                                        !!
+/solu
+
+! Solucionar o modelo
+ALLSEL
+SOLVE
+
+
+!! PÓS-PROCESSO                                                                                   !!
+/post1
+
+! Plotar deformada
+SET,FIRST
+PLDISP,2
+
+! Plotar forças axiais nas molas do solo
+ALLSEL
+ETABLE,REFL
+ESEL,S,TYPE,,2
+PLLS,'FX','FX'
+ALLSEL
+

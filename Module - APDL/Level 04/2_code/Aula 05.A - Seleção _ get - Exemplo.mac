@@ -1,0 +1,44 @@
+!!                                                                                                !!
+!! PROBLEMA: Seleção e obtenção dos números de nós coincidentes em pórtico plano para criação     !!
+!!           de rótula utilizando comando CP.                                                     !!
+!!                                                                                                !!
+
+!! ABORDAGEM 1: Seleção com base na posição dos nós                                               !!
+!!                                                                                                !!
+! Seleção inicial (from full): filtrar coordenada X dos nós
+NSEL,S,LOC,X,0
+! Seleção subsequente (reselect): filtrar coordenada Y dos nós
+NSEL,R,LOC,Y,H
+! Seleção final (reselect): filtrar coordenada Z dos nós
+NSEL,R,LOC,Z,0
+
+! Obter número dos nós
+*get,N1,NODE,,NUM,MIN
+*get,N2,NODE,,NUM,MAX
+
+! A variável N1 contém o número de um dos nós (nó de menor número) e a variável N2 contém o número
+! do outro nó (nó de maior número). Com esses dois valores (N1 & N2) o comando CP pode ser executado
+
+
+!! ABORDAGEM 2: Seleção com o uso de entidades adjacentes                                         !!
+!!                                                                                                !!
+! Seleção das linhas do pilar e da viga com base nas coordenadas
+LSEL,S,LOC,X,0
+LSEL,A,LOC,Y,H
+
+! Seleção dos keypoints adjacentes às linhas
+KSLL,S
+
+! Seleção dos keypoints na posição de interesse (vértice do pórtico)
+KSEL,R,LOC,X,0
+KSEL,R,LOC,Y,H
+
+! Seleção dos nós adjacentes aos keypoints
+NSLK,S
+
+! Obter número dos nós
+*get,N1,NODE,,NUM,MIN
+*get,N2,NODE,,NUM,MAX
+
+! A variável N1 contém o número de um dos nós (nó de menor número) e a variável N2 contém o número
+! do outro nó (nó de maior número). Com esses dois valores (N1 & N2) o comando CP pode ser executado

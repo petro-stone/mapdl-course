@@ -1,0 +1,188 @@
+
+!! DADOS                                                       !!
+! Exercício: 3
+! Descrição: Análise estática linear de treliça plana
+! Unidades: m (metro), N (Newton), s (segundo)
+
+!! PRÉ-PROCESSO                                                !!
+/prep7
+
+! Elemento LINK180
+ET,1,180
+
+! Definição das variáveis
+*ASK,L,"COMPRIMENTO TOTAL DA TRELICA EM METROS",3
+*ASK,N,"NUMERO DE MODULOS",3
+*ASK,H,"ALTURA DA TRELICA EM METROS",1
+*ASK,Dbmm,"DIAMETRO DOS BANZOS EM MILIMETROS",40
+*ASK,Dmmm,"DIAMETRO DOS MONTANTES EM MILIMETROS",40
+*ASK,Ddmm,"DIAMETRO DAS DIAGONAIS EM MILIMETROS",40
+*ASK,FkN,"FORCA APLICADA NA PONTA EM KN",10
+*ASK,fi,"ANGULO DA FORCA COM A VERTICAL EM GRAUS",0
+
+Db=Dbmm*1E-3
+Dm=Dmmm*1E-3
+Dd=Ddmm*1E-3
+F=FkN*1E3
+Fx=F*SIN(fi*3.1416/180)
+Fy=F*COS(fi*3.1416/180)
+A=L/N
+
+! Real Constants
+R,1,(3.1416*Db**2)/4
+R,1,(3.1416*Dm**2)/4
+R,1,(3.1416*Dd**2)/4
+
+! Propriedades do material
+MP,EX,1,2E11
+MP,PRXY,1,0.3
+
+! NÓS
+! Linha superior
+I=0
+FLAG=N
+*DOWHILE,FLAG
+	*IF,I,LE,N,THEN
+		N,I+1,I*A,H
+		I=I+1
+		FLAG=N-I
+  *ELSEIF,*EXIT
+	*ENDIF
+	N,I+1,I*A,H
+*ENDDO
+
+! Linha inferior
+I=0
+FLAG=N
+*DOWHILE,FLAG
+	*IF,I,LE,N,THEN
+		N,I+101,I*A,0
+		I=I+1
+		FLAG=N-I
+		*ELSEIF,*EXIT
+	*ENDIF
+*ENDDO
+
+" Off By One Bug "
+" OBOB "
+
+! ELEMENTOS
+! Banzo superior
+I=0
+FLAG=N
+*DOWHILE,FLAG
+	*IF,I,LE,N,THEN
+		E,I+1,I+2
+		I=I+1
+		FLAG=N-I
+		*ELSEIF,*EXIT
+	*ENDIF
+*ENDDO
+
+! Banzo inferior
+I=1
+FLAG=N
+*DOWHILE,FLAG
+	*IF,I,LT,N,THEN
+		E,I+100,I+101
+		I=I+1
+		FLAG=N-I
+		*ELSEIF,*EXIT
+	*ENDIF
+*ENDDO
+
+! Montantes
+I=0
+FLAG=N
+*DOWHILE,FLAG
+	*IF,I,LE,N,THEN
+		E,I+101,I+1
+		I=I+1
+		FLAG=N-I
+		*ELSEIF,*EXIT
+	*ENDIF
+*ENDDO
+
+! Diagonais
+I=0
+FLAG=N
+*DOWHILE,FLAG
+	*IF,I,LE,N,THEN
+		E,I+101,I+2
+		I=I+1
+		FLAG=N-I
+		*ELSEIF,*EXIT
+	*ENDIF
+*ENDDO
+
+! APOIOS
+! Superior
+D,1,UX,0,,,,UY
+! Inferior
+D,101,UX,0
+
+! Carregamento
+F,N+1,FX,-Fxs
+F,N+1,FY,-Fy
+
+pointers
+naming things
+OBOBs PEP8
+
+mynumber=4
+my_number=4
+MinhaClasse
+
+myNumber
+my_array
+
+
+
+!! SOLUÇÃO                                                     !!
+! Solucionar
+/solu
+SOLVE
+
+!! PÓS-PROCESSO                                                !!
+/post1
+
+! Ler resultados
+SET,,1
+
+! Plotar deformada
+PLDISP
+
+! Listar reações
+PRRSOL
+
+! Listar forças nas barras
+PRESOL,F
+
+! Criar tabela
+ETABLE,TENSNORM,LS,1
+ETABLE,DEFAXIAL,LEPEL,1
+ETABLE,FORAXIAL,SMISC,1
+
+! Plotar tensão normal
+PLETAB,TENSNORM,NOAV
+
+! Plotar deformação axial
+PLETAB,DEFAXIAL,NOAV
+
+! Plotar força axial
+PLETAB,FORAXIAL,NOAV
+
+! Listar tensões normais
+PRETAB,TENSNORM
+
+! Listar deformações axiais
+PRETAB,DEFAXIAL
+
+! Listar forças axiais
+PRETAB,FORAXIAL
+
+! Criar animação
+!ANMODE,50,0.02
+
+FINISH
+

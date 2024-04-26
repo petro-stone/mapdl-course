@@ -1,0 +1,75 @@
+Delta=DeltaY
+
+!! Dimensão da malha de elementos finitos
+ESIZE,DimElemento
+AESIZE,DimElemento
+
+!! Atributos das linhas
+! Pilares (z=0)
+CMSEL,S,LPilares
+LSEL,R,LOC,Z,0
+ORIENT,BEAM188,CONCRETO,SecPilares,,,Delta
+! Pilares (z=/0)
+CMSEL,S,LPilares
+LSEL,U,LOC,Z,0
+ORIENT,BEAM188,CONCRETO,SecPilares,,,-Delta
+! Vigas 20x50 sem offset em Y
+CMSEL,S,LVigas20x50A
+ORIENT,BEAM188,CONCRETO,SecV20x50A,,Delta
+! Vigas 20x50 com offset em Y
+CMSEL,S,LVigas20x50B
+ORIENT,BEAM188,CONCRETO,SecV20x50B,,Delta
+! Vigas 15x40 sem offset em Y
+CMSEL,S,LVigas15x40A
+ORIENT,BEAM188,CONCRETO,SecV15x40A,,Delta
+! Vigas 15x40 com offset em Y
+CMSEL,S,LVigas15x40B
+ORIENT,BEAM188,CONCRETO,SecV15x40B,,Delta
+! Vigas de aço da cobertura
+CMSEL,S,LVigasCob
+ORIENT,BEAM188,STEEL,SecW250X25,,Delta
+! Terças de aço da cobertura
+CMSEL,S,LTercasCob
+ORIENT,BEAM188,STEEL,SecUE127,,Delta,0.15*Delta,DimElemento/2
+! Agulhas de aço da cobertura
+CMSEL,S,LAgulhasCob
+ORIENT,BEAM188,STEEL,SecL38x3,,Delta
+! Tirantes de aço da cobertura
+CMSEL,S,LTirantesCob
+LATT,STEEL,SecB10,LINK180
+LESIZE,ALL,,,1
+! Contraventos de aço da cobertura
+CMSEL,S,LContraventosCob
+LATT,STEEL,SecB16,LINK180
+LESIZE,ALL,,,1
+
+!! Atributos das áreas
+! Lajes (h=12)
+CMSEL,S,Laje12
+AATT,CONCRETO,,SHELL181,COORDSYS,SecLaje12
+! Lajes (h=8)
+CMSEL,S,Laje8
+AATT,CONCRETO,,SHELL181,COORDSYS,SecLaje8
+
+!! Criar malha
+ALLSEL
+LSEL,U,LINE,,ALL
+
+CMSEL,A,LPilares
+CMSEL,A,LVigas20x50A
+CMSEL,A,LVigas20x50B
+CMSEL,A,LVigas15x40A
+CMSEL,A,LVigas15x40B
+CMSEL,A,LVigasCob
+CMSEL,A,LTercasCob
+CMSEL,A,LAgulhasCob
+CMSEL,A,LTirantesCob
+CMSEL,A,LContraventosCob
+
+AMESH,ALL
+LMESH,ALL
+
+/view,1,1,1,1
+/auto,1
+/eshape,1
+EPLOT
