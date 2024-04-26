@@ -1,0 +1,18 @@
+alturaPavimento   = 3
+larguraPavimento  = 5
+q                 = 10e3
+forHorizontal     = 15e3
+alturaViga        = 0.5
+larguraViga       = 0.2
+larguraPilar      = 0.3
+profundidadePilar = 0.4
+
+et,1,188
+
+k,1,0,0,0
+k,2,larguraPavimento,0,0
+
+*do,
+*enddo
+
+
