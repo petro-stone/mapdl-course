@@ -53,6 +53,15 @@ allsel
 
 F,MasterNd,FZ,-500E3
 
+kmesh,1
+*get,BotMasterNode,node,,num,min
+
+nsel,s,loc,z,0
+cerig,BotMasterNode,all,all
+
+allsel
+d,BotMasterNode,ux,0,,,,uy,uz,rotz
+
 ALLSEL
 
 /solu
