@@ -22,11 +22,10 @@ VSBV,1,2
 
 VDELE,ALL
 
-ASEL,S,LOC,Z,0
-ASEL,A,LOC,Z,5.9
-ASEL,A,LOC,Z,2.45
-ASEL,A,LOC,Z,3.45
-ASEL,A,LOC,X,0
+csys,1
+asel,s,loc,x,0.11
+asel,inve
+csys,0
 
 ADELE,ALL
 
