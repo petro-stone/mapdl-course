@@ -53,6 +53,7 @@ allsel
 
 F,MasterNd,FZ,-500E3
 
+nsel,none
 kmesh,1
 *get,BotMasterNode,node,,num,min
 
