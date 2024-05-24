@@ -23,7 +23,7 @@ VSBV,1,2
 
 VDELE,ALL
 
-csys,1
+csys,1 ! Nota: DSYS,1 para alterar EXIBIÇÃO para sistema de coordenadas cilíndricas
 asel,s,loc,x,0.11
 asel,inve
 csys,0
