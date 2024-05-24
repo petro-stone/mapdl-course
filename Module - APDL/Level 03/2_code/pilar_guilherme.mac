@@ -35,29 +35,20 @@ AATT,1,,1,,1
 AESIZE,ALL,0.1
 AMESH,ALL
 
-*get,MxNd,NODE,,NUM,MAXD
-
-
 ET,2,MASS21
-
 R,2,0
-
-NSEL,S,LOC,Z,5.9
-NSEL,R,LOC,X,0
-NSEL,R,LOC,Y,0
-
-*get,MasterNd,NODE,,NUM,MIN
 
 TYPE,2
 REAL,2
 
-E,MasterNd
+nsel,none
+kmesh,2
+*get,MasterNd,NODE,,NUM,MIN
 
 NSEL,S,LOC,Z,5.9
-ESLV,S
-NSEL,R
-
 CERIG,MasterNd,ALL,UXYZ
+
+allsel
 
 F,MasterNd,FZ,-500E3
 
