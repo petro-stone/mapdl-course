@@ -47,7 +47,8 @@ kmesh,2
 *get,MasterNd,NODE,,NUM,MIN
 
 NSEL,S,LOC,Z,5.9
-CERIG,MasterNd,ALL,UXYZ
+! CERIG,MasterNd,ALL,UXYZ
+RBE3,MasterNd,UXYZ,ALL
 
 allsel
 
@@ -58,7 +59,8 @@ kmesh,1
 *get,BotMasterNode,node,,num,min
 
 nsel,s,loc,z,0
-cerig,BotMasterNode,all,all
+!cerig,BotMasterNode,all,all
+RBE3,BotMasterNode,ALL,ALL
 
 allsel
 d,BotMasterNode,ux,0,,,,uy,uz,rotz
