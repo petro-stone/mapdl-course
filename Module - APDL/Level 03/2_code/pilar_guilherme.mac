@@ -1,3 +1,10 @@
+*del,i,,nopr
+
+*cfopen,'results',txt
+  *vwrite,
+  (' ')
+*cfclos
+
 *do,i,1,2,1
   init
   /prep7
@@ -34,7 +41,7 @@
   ALLSEL
 
   AATT,1,,1,,1
-  AESIZE,ALL,0.1
+  AESIZE,ALL,0.02
   AMESH,ALL
 
   ET,2,MASS21
@@ -48,8 +55,11 @@
   *get,MasterNd,NODE,,NUM,MIN
 
   NSEL,S,LOC,Z,5.9
-  ! CERIG,MasterNd,ALL,UXYZ
-  RBE3,MasterNd,UXYZ,ALL
+  *if,i,eq,1,then
+    CERIG,MasterNd,ALL,all
+  *elseif,i,eq,2,then
+    RBE3,MasterNd,UXYZ,ALL
+  *endif
 
   allsel
 
@@ -60,11 +70,15 @@
   *get,BotMasterNode,node,,num,min
 
   nsel,s,loc,z,0
-  !cerig,BotMasterNode,all,all
-  RBE3,BotMasterNode,ALL,ALL
+  *if,i,eq,1,then
+    cerig,BotMasterNode,all,all
+  *elseif,i,eq,2,then
+    RBE3,BotMasterNode,ALL,ALL
+  *endif
 
   allsel
   d,BotMasterNode,ux,0,,,,uy,uz,rotz
+  d,MasterNd,ux,0,,,,uy
 
   ALLSEL
 
@@ -85,4 +99,24 @@
   plnsol,u,x,2
   *get,ux_max,plnsol,,max
   *get,ux_min,plnsol,,min
+
+  *cfopen,'results',txt,,append
+    *vwrite,i
+    ('Iteração: ',F5.0)
+    *vwrite,uy_max
+    (E20.6)
+    *vwrite,uy_min
+    (E20.6)
+    *vwrite,ux_max
+    (E20.6)
+    *vwrite,ux_min
+    (E20.6)
+  *cfclos
+
+  path,'long%i%',2,,100
+  ppath,1,,0,-0.11,0
+  ppath,2,,0,-0.11,5.9
+  pdef,'UY',u,y
+  pasave,all,'path_%i%',path
+
 *enddo
