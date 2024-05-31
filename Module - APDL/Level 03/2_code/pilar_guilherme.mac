@@ -72,3 +72,15 @@ SOLVE
 
 /post1
 SET,,1
+/view,1,1,0,0
+pldisp,2
+
+plnsol,s,eqv,2
+
+plnsol,u,y,2
+*get,uy_max,plnsol,,max
+*get,uy_min,plnsol,,min
+
+plnsol,u,x,2
+*get,ux_max,plnsol,,max
+*get,ux_min,plnsol,,min
