@@ -1,86 +1,88 @@
-init
-/prep7
+*do,i,1,2,1
+  init
+  /prep7
 
-ET,1,181
+  ET,1,181
 
-MP,EX,1,200E9
-MP,PRXY,1,0.3
+  MP,EX,1,200E9
+  MP,PRXY,1,0.3
 
-/vup,,Z
-/view,1,0,1,0
+  /vup,,Z
+  /view,1,0,1,0
 
-SECTYPE,1,SHELL,,ESPESS,3
-SECDATA,0.0127,1
+  SECTYPE,1,SHELL,,ESPESS,3
+  SECDATA,0.0127,1
 
-K,1,0,0,0
-K,2,0,0,5.9
+  K,1,0,0,0
+  K,2,0,0,5.9
 
-CYL4,0,0,0.11,,,,5.9
+  CYL4,0,0,0.11,,,,5.9
 
-CYLIND,0.11,,2.45,3.45,0,180
+  CYLIND,0.11,,2.45,3.45,0,180
 
-VSBV,1,2
+  VSBV,1,2
 
-VDELE,ALL
+  VDELE,ALL
 
-csys,1 ! Nota: DSYS,1 para alterar EXIBIÇÃO para sistema de coordenadas cilíndricas
-asel,s,loc,x,0.11
-asel,inve
-csys,0
+  csys,1 ! Nota: DSYS,1 para alterar EXIBIÇÃO para sistema de coordenadas cilíndricas
+  asel,s,loc,x,0.11
+  asel,inve
+  csys,0
 
-ADELE,ALL
+  ADELE,ALL
 
-ALLSEL
+  ALLSEL
 
-AATT,1,,1,,1
-AESIZE,ALL,0.1
-AMESH,ALL
+  AATT,1,,1,,1
+  AESIZE,ALL,0.1
+  AMESH,ALL
 
-ET,2,MASS21
-R,2,0
+  ET,2,MASS21
+  R,2,0
 
-TYPE,2
-REAL,2
+  TYPE,2
+  REAL,2
 
-nsel,none
-kmesh,2
-*get,MasterNd,NODE,,NUM,MIN
+  nsel,none
+  kmesh,2
+  *get,MasterNd,NODE,,NUM,MIN
 
-NSEL,S,LOC,Z,5.9
-! CERIG,MasterNd,ALL,UXYZ
-RBE3,MasterNd,UXYZ,ALL
+  NSEL,S,LOC,Z,5.9
+  ! CERIG,MasterNd,ALL,UXYZ
+  RBE3,MasterNd,UXYZ,ALL
 
-allsel
+  allsel
 
-F,MasterNd,FZ,-500E3
+  F,MasterNd,FZ,-500E3
 
-nsel,none
-kmesh,1
-*get,BotMasterNode,node,,num,min
+  nsel,none
+  kmesh,1
+  *get,BotMasterNode,node,,num,min
 
-nsel,s,loc,z,0
-!cerig,BotMasterNode,all,all
-RBE3,BotMasterNode,ALL,ALL
+  nsel,s,loc,z,0
+  !cerig,BotMasterNode,all,all
+  RBE3,BotMasterNode,ALL,ALL
 
-allsel
-d,BotMasterNode,ux,0,,,,uy,uz,rotz
+  allsel
+  d,BotMasterNode,ux,0,,,,uy,uz,rotz
 
-ALLSEL
+  ALLSEL
 
-/solu
-SOLVE
+  /solu
+  SOLVE
 
-/post1
-SET,,1
-/view,1,1,0,0
-pldisp,2
+  /post1
+  SET,,1
+  /view,1,1,0,0
+  pldisp,2
 
-plnsol,s,eqv,2
+  plnsol,s,eqv,2
 
-plnsol,u,y,2
-*get,uy_max,plnsol,,max
-*get,uy_min,plnsol,,min
+  plnsol,u,y,2
+  *get,uy_max,plnsol,,max
+  *get,uy_min,plnsol,,min
 
-plnsol,u,x,2
-*get,ux_max,plnsol,,max
-*get,ux_min,plnsol,,min
+  plnsol,u,x,2
+  *get,ux_max,plnsol,,max
+  *get,ux_min,plnsol,,min
+*enddo
