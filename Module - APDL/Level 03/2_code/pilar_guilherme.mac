@@ -5,7 +5,8 @@
   (' ')
 *cfclos
 
-*do,i,1,2,1
+! *do,i,1,2,1
+i=3
   init
   /prep7
 
@@ -59,6 +60,8 @@
     CERIG,MasterNd,ALL,all
   *elseif,i,eq,2,then
     RBE3,MasterNd,UXYZ,ALL
+  *elseif,i,eq,3,then
+    RBE3,MasterNd,UXYZ,ALL
   *endif
 
   allsel
@@ -74,6 +77,26 @@
     cerig,BotMasterNode,all,all
   *elseif,i,eq,2,then
     RBE3,BotMasterNode,ALL,ALL
+  *elseif,i,eq,3,then
+    et,3,targe170
+    r,3
+    type,3
+    !tshap
+    real,3
+    nsel,s,node,,BotMasterNode
+    esln,s
+    esurf
+
+    et,4,conta177
+    type,4
+    keyopt,4,2,2 ! Contact algorithm: MPC
+    keyopt,4,3,2 ! Contact model: include all scenarios
+    keyopt,4,12,5 ! Behavior: bonded (always)
+    nsel,s,loc,z,0
+    nsel,u,node,,BotMasterNode
+    esln,s
+    esurf
+
   *endif
 
   allsel

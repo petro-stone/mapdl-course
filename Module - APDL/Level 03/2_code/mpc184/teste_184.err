@@ -1,0 +1,131 @@
+/COM,ANSYS RELEASE 2023 R2           BUILD 23.2      UP20230531       16:03:06
+
+ *** WARNING ***                         CP =       8.312   TIME= 16:03:57
+ No surface elements were generated because no exterior face of the      
+ selected element set has all of its nodes selected.                     
+
+ *** WARNING ***                         CP =       8.828   TIME= 16:03:59
+ No surface elements were generated because no exterior face of the      
+ selected element set has all of its nodes selected.                     
+
+ *** WARNING ***                         CP =      15.656   TIME= 16:05:06
+ No surface elements were generated because no exterior face of the      
+ selected element set has all of its nodes selected.                     
+
+ *** WARNING ***                         CP =      16.172   TIME= 16:05:07
+ No surface elements were generated because no exterior face of the      
+ selected element set has all of its nodes selected.                     
+
+ *** WARNING ***                         CP =      25.250   TIME= 16:08:10
+ No surface elements were generated because no exterior face of the      
+ selected element set has all of its nodes selected.                     
+
+ *** WARNING ***                         CP =      29.047   TIME= 16:11:32
+ No surface elements were generated because no exterior face of the      
+ selected element set has all of its nodes selected.                     
+
+ *** WARNING ***                         CP =      29.188   TIME= 16:11:52
+ No surface elements were generated because no exterior face of the      
+ selected element set has all of its nodes selected.                     
+
+ *** WARNING ***   SUPPRESSED MESSAGE    CP =      35.797   TIME= 16:13:10
+ Some entities requested in the *VGET were undefined.                    
+
+ *** WARNING ***   SUPPRESSED MESSAGE    CP =      35.797   TIME= 16:13:10
+ Some entities requested in the *VGET were undefined.                    
+
+ *** WARNING ***   SUPPRESSED MESSAGE    CP =      36.594   TIME= 16:13:27
+ Some entities requested in the *VGET were undefined.                    
+
+ *** WARNING ***   SUPPRESSED MESSAGE    CP =      36.594   TIME= 16:13:27
+ Some entities requested in the *VGET were undefined.                    
+
+ *** WARNING ***   SUPPRESSED MESSAGE    CP =      36.594   TIME= 16:13:27
+ Some entities requested in the *VGET were undefined.                    
+
+ *** WARNING ***   SUPPRESSED MESSAGE    CP =      39.406   TIME= 16:13:48
+ Some entities requested in the *VGET were undefined.                    
+
+ *** WARNING ***   SUPPRESSED MESSAGE    CP =      39.406   TIME= 16:13:48
+ Some entities requested in the *VGET were undefined.                    
+
+ *** WARNING ***   SUPPRESSED MESSAGE    CP =      40.016   TIME= 16:13:53
+ Some entities requested in the *VGET were undefined.                    
+
+ *** WARNING ***   SUPPRESSED MESSAGE    CP =      40.016   TIME= 16:13:53
+ Some entities requested in the *VGET were undefined.                    
+
+ *** WARNING ***   SUPPRESSED MESSAGE    CP =      40.031   TIME= 16:13:53
+ Some entities requested in the *VGET were undefined.                    
+
+ *** WARNING ***   SUPPRESSED MESSAGE    CP =      41.766   TIME= 16:14:31
+ Some entities requested in the *VGET were undefined.                    
+
+ *** WARNING ***                         CP =      43.734   TIME= 16:15:18
+ No surface elements were generated because no exterior face of the      
+ selected element set has all of its nodes selected.                     
+
+ *** WARNING ***                         CP =      46.531   TIME= 16:19:00
+ The EPLO command cannot be executed.  The selected elements cannot be   
+ displayed by PowerGraphics.  To correct this situation, select          
+ different elements or turn off PowerGraphics.                           
+
+ *** WARNING ***                         CP =      47.438   TIME= 16:19:11
+ The EPLO command cannot be executed.  The selected elements cannot be   
+ displayed by PowerGraphics.  To correct this situation, select          
+ different elements or turn off PowerGraphics.                           
+
+ *** WARNING ***                         CP =      48.531   TIME= 16:20:02
+ ESLE is not a recognized PREP7 command, abbreviation, or macro.         
+  This command will be ignored.                                          
+
+ *** WARNING ***                         CP =      49.203   TIME= 16:20:11
+ The EPLO command cannot be executed.  The selected elements cannot be   
+ displayed by PowerGraphics.  To correct this situation, select          
+ different elements or turn off PowerGraphics.                           
+
+ *** WARNING ***                         CP =      49.781   TIME= 16:20:20
+ The EPLO command cannot be executed.  The selected elements cannot be   
+ displayed by PowerGraphics.  To correct this situation, select          
+ different elements or turn off PowerGraphics.                           
+
+ *** WARNING ***   SUPPRESSED MESSAGE    CP =      50.234   TIME= 16:20:35
+ Some entities requested in the *VGET were undefined.                    
+
+ *** WARNING ***   SUPPRESSED MESSAGE    CP =      50.234   TIME= 16:20:35
+ Some entities requested in the *VGET were undefined.                    
+
+ *** WARNING ***   SUPPRESSED MESSAGE    CP =      50.234   TIME= 16:20:35
+ Some entities requested in the *VGET were undefined.                    
+
+ *** ERROR ***                           CP =      51.250   TIME= 16:20:47
+ This function requires selected nodes.                                  
+  No nodes are currently selected.                                       
+
+ *** WARNING ***   SUPPRESSED MESSAGE    CP =      51.828   TIME= 16:20:57
+ Some entities requested in the *VGET were undefined.                    
+
+ *** WARNING ***   SUPPRESSED MESSAGE    CP =      51.844   TIME= 16:20:57
+ Some entities requested in the *VGET were undefined.                    
+
+ *** WARNING ***   SUPPRESSED MESSAGE    CP =      51.844   TIME= 16:20:58
+ Some entities requested in the *VGET were undefined.                    
+
+ *** WARNING ***   SUPPRESSED MESSAGE    CP =      54.719   TIME= 16:22:04
+ Some entities requested in the *VGET were undefined.                    
+
+ *** WARNING ***   SUPPRESSED MESSAGE    CP =      54.719   TIME= 16:22:04
+ Some entities requested in the *VGET were undefined.                    
+
+ *** WARNING ***   SUPPRESSED MESSAGE    CP =      54.719   TIME= 16:22:04
+ Some entities requested in the *VGET were undefined.                    
+
+ *** WARNING ***   SUPPRESSED MESSAGE    CP =      56.406   TIME= 16:22:51
+ Some entities requested in the *VGET were undefined.                    
+
+ *** ERROR ***                           CP =      59.109   TIME= 16:26:29
+ Invalid parameter name: .  If not intended to be a parameter, please    
+ refrain from using the character % when naming.                         
+
+ *** ERROR ***                           CP =      59.156   TIME= 16:26:32
+ The above error occurred processing Line =                              
