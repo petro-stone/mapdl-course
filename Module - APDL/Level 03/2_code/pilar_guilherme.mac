@@ -1,12 +1,13 @@
 *del,i,,nopr
+/output,outfile,out
+/uis,msgpop,4
 
 *cfopen,'results',txt
   *vwrite,
   (' ')
 *cfclos
 
-! *do,i,1,2,1
-i=3
+*do,i,1,3,1
   init
   /prep7
 
@@ -17,6 +18,7 @@ i=3
 
   /vup,,Z
   /view,1,0,1,0
+  seltol,1e-8
 
   SECTYPE,1,SHELL,,ESPESS,3
   SECDATA,0.0127,1
@@ -53,20 +55,48 @@ i=3
 
   nsel,none
   kmesh,2
-  *get,MasterNd,NODE,,NUM,MIN
+  *get,TopMasterNode,NODE,,NUM,MIN
 
   NSEL,S,LOC,Z,5.9
   *if,i,eq,1,then
-    CERIG,MasterNd,ALL,all
+    CERIG,TopMasterNode,ALL,all
+
   *elseif,i,eq,2,then
-    RBE3,MasterNd,UXYZ,ALL
+    RBE3,TopMasterNode,UXYZ,ALL
+
   *elseif,i,eq,3,then
-    RBE3,MasterNd,UXYZ,ALL
+
+    allsel
+    r,3
+    real,3
+
+    et,3,targe170
+    keyopt,3,2,0
+    keyopt,3,4,111111
+
+    et,4,conta175
+    keyopt,4,2,2 ! Contact algorithm: MPC
+    keyopt,4,4,0
+    keyopt,4,12,5 ! Behavior: bonded (always)
+
+    type,3
+    tshap,pilo
+    e,TopMasterNode
+
+    lsel,s,loc,z,5.9
+    nsll,s,1
+    esln,s
+    type,4
+    esurf
+
   *endif
 
   allsel
 
-  F,MasterNd,FZ,-500E3
+  F,TopMasterNode,FZ,-500E3
+
+  TYPE,2
+  REAL,2
 
   nsel,none
   kmesh,1
@@ -79,31 +109,35 @@ i=3
     RBE3,BotMasterNode,ALL,ALL
   *elseif,i,eq,3,then
 
-    ! Failed approach:
-    ! et,3,targe170
-    ! r,3
-    ! type,3
-    ! !tshap
-    ! real,3
-    ! nsel,s,node,,BotMasterNode
-    ! esln,s
-    ! esurf
-    !
-    ! et,4,conta177
-    ! type,4
-    ! keyopt,4,2,2 ! Contact algorithm: MPC
-    ! keyopt,4,3,2 ! Contact model: include all scenarios
-    ! keyopt,4,12,5 ! Behavior: bonded (always)
-    ! nsel,s,loc,z,0
-    ! nsel,u,node,,BotMasterNode
-    ! esln,s
-    ! esurf
+    allsel
+
+    r,4
+    real,4
+
+    et,5,targe170
+    keyopt,5,2,0
+    keyopt,5,4,111111
+
+    et,6,conta175
+    keyopt,6,2,2 ! Contact algorithm: MPC
+    keyopt,6,4,0
+    keyopt,6,12,5 ! Behavior: bonded (always)
+
+    type,5
+    tshap,pilo
+    e,BotMasterNode
+
+    lsel,s,loc,z,0
+    nsll,s,1
+    esln,s
+    type,6
+    esurf
 
   *endif
 
   allsel
   d,BotMasterNode,ux,0,,,,uy,uz,rotz
-  d,MasterNd,ux,0,,,,uy
+  d,TopMasterNode,ux,0,,,,uy
 
   ALLSEL
 
