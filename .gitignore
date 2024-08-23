@@ -1,3 +1,16 @@
 *.db
 *.rst
 *.exe
+*.parm
+*.dsp
+*.dbb
+*.emat
+*.err
+*.esav
+*.full
+*.ldhi
+*.log
+*.mntr
+*.r001
+*.rdb
+*.stat
