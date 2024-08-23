@@ -1,0 +1,280 @@
+/BATCH  
+/COM,ANSYS RELEASE 2023 R2           BUILD 23.2      UP20230531       16:03:15
+/input,menust,tmp,''
+/GRA,POWER
+/GST,ON
+/PLO,INFO,3
+/GRO,CURL,ON
+/CPLANE,1   
+/REPLOT,RESIZE  
+WPSTYLE,,,,,,,,0
+/REPLOT,RESIZE  
+/REPLOT,RESIZE  
+/INPUT,'pilar_guilherme','mac','C:\apdl_macros\mapdl-course\Module - APDL\Level 03\2_code\',, 0 
+/COM,ANSYS RELEASE 2023 R2           BUILD 23.2      UP20230531       16:04:07
+FINISH  
+/CLEAR,START
+/COM,ANSYS RELEASE 2023 R2           BUILD 23.2      UP20230531       16:04:10
+/input,start,ans,'C:\Program Files\ANSYS Inc\v232\ANSYS\apdl\'  
+!*  
+/INPUT,'pilar_guilherme','mac','C:\apdl_macros\mapdl-course\Module - APDL\Level 03\2_code\',, 0 
+/COM,ANSYS RELEASE 2023 R2           BUILD 23.2      UP20230531       16:06:13
+/REPLOT,RESIZE  
+/INPUT,'pilar_guilherme','mac','C:\apdl_macros\mapdl-course\Module - APDL\Level 03\2_code\',, 0 
+/COM,ANSYS RELEASE 2023 R2           BUILD 23.2      UP20230531       16:06:48
+/REPLOT,RESIZE  
+nsel,s,loc,z,0  
+et,3,targe170   
+type,3  
+r,3 
+real,3  
+nsel,s,node,,BotMasterNode  
+esln,s  
+eplo
+elist   
+nlist   
+esurf,,,POINT   
+et,4,conta177   
+type,4  
+keyopt,4,2,2 ! Contact algorithm: MPC   
+keyopt,4,3,2 ! Contact model: include all scenarios 
+keyopt,4,12,5 ! Behavior: bonded (always)   
+nsel,s,loc,z,0  
+nsel,u,node,,BotMasterNode  
+esln,s  
+eplo
+/VIEW,1,1,1,1   
+/ANG,1  
+/REP,FAST   
+/REPLOT,RESIZE  
+nplo
+eplo
+esurf   
+nplo
+eplo
+type,3  
+real,3  
+nsel,s,node,,BotMasterNode  
+esln,s  
+eplo
+elist   
+esurf   
+et,3,targe169   
+esurf   
+/REPLOT,RESIZE  
+nsel,s,loc,z,0  
+nplo
+esel,s,type,,4  
+eplo
+elist   
+edele,all   
+allsel  
+eplo
+nsel,s,loc,z,0  
+esln
+eplo
+esel,u,type,,1  
+/rep
+elist   
+nplo
+esln
+eplo
+/MREP,EPLOT 
+/rep
+/rep
+/rep
+/rep
+/rep
+/rep
+/rep
+/rep
+/rep
+/rep
+/rep
+/rep
+/rep
+/rep
+/rep
+/rep
+/rep
+!*  
+!*  
+/COM, CONTACT PAIR CREATION - START 
+CM,_NODECM,NODE 
+CM,_ELEMCM,ELEM 
+CM,_KPCM,KP 
+CM,_LINECM,LINE 
+CM,_AREACM,AREA 
+CM,_VOLUCM,VOLU 
+/GSAV,cwz,gsav,,temp
+MP,MU,1,
+MAT,1   
+MP,EMIS,1,7.88860905221e-31 
+R,4 
+REAL,4  
+ET,5,170
+ET,6,175
+R,4,,,1.0,0.1,0,
+RMORE,,,1.0E20,0.0,1.0, 
+RMORE,0.0,0,1.0,,1.0,0.5
+RMORE,0,1.0,1.0,0.0,,1.0
+RMORE,10.0,,,,,1.0  
+KEYOPT,6,4,0
+KEYOPT,6,5,0
+KEYOPT,6,7,0
+KEYOPT,6,8,0
+KEYOPT,6,9,0
+KEYOPT,6,10,0   
+KEYOPT,6,11,0   
+KEYOPT,6,12,5   
+KEYOPT,6,14,0   
+KEYOPT,6,18,0   
+KEYOPT,6,2,2
+KEYOPT,5,5,0
+! Generate the target surface   
+NSEL,NONE   
+NSEL,A,,,10290  
+CM,_TARGET,NODE 
+TYPE,5  
+ESLN,S,0
+ESURF   
+CMSEL,S,_ELEMCM 
+! Generate the contact surface  
+LSEL,S,,,1  
+LSEL,A,,,2  
+LSEL,A,,,3  
+LSEL,A,,,4  
+CM,_CONTACT,LINE
+TYPE,6  
+NSLL,S,1
+ESLN,S,0
+ESURF   
+!*  
+ESEL,S,REAL,,4  
+ESEL,R,ENAME,,171,177   
+EDEL,ALL
+ETDEL,5 
+ETDEL,6 
+ESEL,ALL
+ESEL,S,TYPE,,5  
+ESEL,A,TYPE,,6  
+ESEL,R,REAL,,4  
+CMSEL,A,_NODECM 
+CMDEL,_NODECM   
+CMSEL,A,_ELEMCM 
+CMDEL,_ELEMCM   
+CMSEL,S,_KPCM   
+CMDEL,_KPCM 
+CMSEL,S,_LINECM 
+CMDEL,_LINECM   
+CMSEL,S,_AREACM 
+CMDEL,_AREACM   
+CMSEL,S,_VOLUCM 
+CMDEL,_VOLUCM   
+/GRES,cwz,gsav  
+CMDEL,_TARGET   
+CMDEL,_CONTACT  
+/COM, CONTACT PAIR CREATION - END   
+esel,s,type,,4  
+nsle
+eplo
+elist   
+esel,s,type,,4  
+nsle
+eplo
+elist   
+!*  
+! esle,s,type,,6
+esel,s,type,,6  
+nsle
+eplo
+elist   
+esel,s,type,,6  
+eplo
+/USER,  1   
+/FOC,   1, -0.178594107907E-01,  0.134571690328E-01,  0.153717465759E-01
+/FOC,   1, -0.514995510912E-02,  0.136399927850E-01,  0.247946714216E-02
+nsel,s,loc,z,0  
+nplo
+!*  
+nplo
+nsel,s,loc,z,0  
+nplo
+/triad,off  
+/rep
+!*  
+!*  
+/COM, CONTACT PAIR CREATION - START 
+CM,_NODECM,NODE 
+CM,_ELEMCM,ELEM 
+CM,_KPCM,KP 
+CM,_LINECM,LINE 
+CM,_AREACM,AREA 
+CM,_VOLUCM,VOLU 
+/GSAV,cwz,gsav,,temp
+! Define surface-based constraint type of pair  
+MAT,1   
+R,5 
+REAL,5  
+ET,7,170
+ET,8,175
+KEYOPT,8,12,5   
+KEYOPT,8,4,0
+KEYOPT,8,2,2
+KEYOPT,7,2,0
+KEYOPT,7,4,111111   
+TYPE,7  
+! Create a pilot node   
+TSHAP,PILO  
+E,10290 
+NSEL,S,,,10290  
+CM,senna,NODE   
+CMSEL,S,_NODECM 
+! Generate the contact surface  
+LSEL,S,,,1  
+LSEL,A,,,2  
+LSEL,A,,,3  
+LSEL,A,,,4  
+CM,_CONTACT,LINE
+TYPE,8  
+NSLL,S,1
+ESLN,S,0
+ESURF   
+*SET,_REALID,5  
+ALLSEL  
+ESEL,ALL
+ESEL,S,TYPE,,7  
+ESEL,A,TYPE,,8  
+ESEL,R,REAL,,5  
+/PSYMB,ESYS,1   
+/PNUM,TYPE,1
+/NUM,1  
+EPLOT   
+ESEL,ALL
+ESEL,S,TYPE,,7  
+ESEL,A,TYPE,,8  
+ESEL,R,REAL,,5  
+CMSEL,A,_NODECM 
+CMDEL,_NODECM   
+CMSEL,A,_ELEMCM 
+CMDEL,_ELEMCM   
+CMSEL,S,_KPCM   
+CMDEL,_KPCM 
+CMSEL,S,_LINECM 
+CMDEL,_LINECM   
+CMSEL,S,_AREACM 
+CMDEL,_AREACM   
+CMSEL,S,_VOLUCM 
+CMDEL,_VOLUCM   
+/GRES,cwz,gsav  
+CMDEL,_TARGET   
+CMDEL,_CONTACT  
+/COM, CONTACT PAIR CREATION - END   
+NSEL,S, , ,   10290 
+NSEL,S, , ,   10290 
+esln,s  
+nlist   
+elist   
+/MREP,EPLOT 
+FINISH  
+! /EXIT,ALL 
