@@ -30,6 +30,11 @@ DK,2,UX,0,,,UZ,ROTX,ROTY
 LeSIZE, ALL,,,50
 LMESH,ALL
 
+/eshape,1
+/auto,1
+/view,1,1,1,1
+eplot
+
 FK,2,FY,-1000
 
 ALLSEL
